@@ -196,28 +196,142 @@ void algorithm(SqList& L, int x){
     return; 
 
 }
+```
 
-/*
- *
- */
-
-/*
- *
- */
-
-/*
- *
- */
+【课后题】链表相关题目
+```cpp
+typedef struct LNode{
+    int data;
+    struct LNode *next;
+}LNode, *LinkList;
 
 
 /*
- *
+ *设计一个递归算法，删除不带头节点的单链表L中所以有值为x的结点
  */
+void delete1_x(LinkList &L, int x){
+    if(!L) return;
+    // 不带头节点的时，删除目标节点的后一节点并存其值（后删法）
+    if(L->data == x){
+        LNode *q = L->next;
+        int val = q->data;
+        L->next = q->next;
+        L->data = val;
+        free(q);
+        delete1_x(L, x) // 此时的L是删除节点过后的L
+    }
+    else delete1_x(L->next, x);
+}
+
+// 改进：无需后删法
+void delete1_x_ver2(LinkList &L, int val){
+    if(!L) return;
+    if(L->data == x){
+        LNode* q = L;
+        L = L->next;
+        free(q);
+        delete1_x_ver2(L, val);
+    }
+    else delete1_x_ver2(L->next, val);
+}
+
 
 
 /*
- *
+ *在带头节点的单链表L中，删除所有值为x的结点，并释放其空间，假设值为x的结点不唯一，试编写算法
  */
+void delete2_x(LinkList &L, int x){
+    LNode *pre = L, p = L->next;
+    while(p){
+        if(p->data == x){
+            LNode* tmp = p;
+            /*Fix*/p = p->next;
+            pre->next = tmp->next;
+            free(tmp);
+
+            //Mis p = p->next;
+            //Mis pre = pre->next;
+        }
+        else {
+            p = p->next;
+            pre = pre->next;
+        }
+    }
+    return; 
+}
+
+
+
+
+
+
+/*
+ *在一个递增有序的线性表中，有数值相同的元素存在，若存储方式为单链表，设计算法，去掉数值相同的元素，使表中不再有重复的元素
+ */
+
+void Clean(LinkList &L){
+    LNode *p = L, aft = L->next // 注意与上题的区别，不带头节点的链表，L是头元素的具体结点
+    while(aft){
+        if(p->data == aft->data){
+            //给当前aft结点先料理后事：存+移
+            LNode* tmp = aft;
+            aft = aft->next;
+
+            p->next = tmp->next;
+            free(tmp);
+        }
+        else{
+            p = p-> next;
+            aft = aft->next;
+        }
+    }
+
+}
+
+
+/*
+ *设L为带头结点的单链表，试编写算法实现从尾到头反向输出每个结点的值
+ */
+void R_print(LinkList L){
+    if(!L->next) R_print(L->next); //先递归叠栈
+    if(!L) printf("%d", L->data);  //再输出
+}
+
+void R_print_ignoreHead(LinkList L){ // 保证递归函数功能的单一性，对于头节点的处理另起函数
+    R_print(L->next);
+}
+
+
+
+/*
+ *将带头结点的单链表就地逆置
+ */
+
+void R_list_ver1(LinkList p, LinkList L){ // tip:p = L->next作为工作指针, L作为头节点
+    if(!p->next) R_list_ver1(p->next, L); //先递归叠栈
+    if(!p){ // 在头节点处，进行尾插法  
+        L->next = p;
+        p->next = NULL;
+        L = p;  
+    }
+}
+
+void R_list_ver2(LinkList L){
+    //摘出头节点,原地算法不能新创建一个新头节点
+    LNode* p = L->next;
+    L->next = NULL;
+
+    // 在头节点处直接进行头插法
+    while(!p){
+        /*Mis,要存p->next*/ LNode* tmp = p->next;
+        p->next = L->next;
+        L->next = p;
+
+        p = tmp;
+    }
+}
+
+
 
 /*
  *
