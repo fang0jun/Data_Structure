@@ -334,8 +334,24 @@ void R_list_ver2(LinkList L){
 
 
 /*
- *
+ *删除带头节点的单链表中删除最小值结点的算法(最小结点唯一)
  */
+void delete_min(LinkList& L){
+    LNode *pre = L->next;
+    while(L->next){
+        if(L->next->data < pre->data) {
+            //mis pre = L->next;
+            pre = L;
+            L = L->next;
+        }
+        else L = L->next;
+    }
+
+    LNode *minNode = pre->next;
+    pre->next = minNode->next;
+    free(minNode);
+}
+
 
 /*
  *
@@ -349,6 +365,18 @@ void R_list_ver2(LinkList L){
  */
 
 
+/*
+ *
+ */
+/*
+ *
+ */
+/*
+ *
+ */
+/*
+ *
+ */
 /*
  *
  */
