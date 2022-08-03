@@ -377,12 +377,5 @@ void delete_min(LinkList& L){
 /*
  *
  */
-/*
- *
- */
-
-/*
- *
- */
 
 ```
