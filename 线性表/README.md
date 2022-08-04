@@ -354,8 +354,46 @@ void delete_min(LinkList& L){
 
 
 /*
- *
+ *有一个带头结点的单链表L，设计一个算法使其元素递增有序
  */
+
+// 法一：时间：n^2原地
+void ordeded1(LinkList &L){
+    LNode *p = L->next;
+    LNode *pre = L;
+    LNode *aft = p->next;
+    p->next = NULL;
+
+    while(p){
+        while(pre)
+
+    }
+}
+
+// 法二：时间：nlogn非原地
+const int 10010;
+int arr[N]; 
+void ordeded2(LinkList &L){
+    int i = 0;
+    L = L->next; 
+    while(L){
+        arr[i++] = L->data;
+        L = L->next;
+    }
+    sort(arr, arr+i);
+
+    LNode *p; p = (LNode *)malloc(sizeof(LNode));
+    // 数组从后到前从大到小头插(有点小饶但代码简练)
+    while(i--){
+        LNode *tmp; tmp = (LNode *)malloc(sizeof(LNode));
+        tmp->next = next;
+        tmp->data = arr[i];
+
+        tmp->next = p->next;
+        p->next = tmp;
+    }
+
+}
 
 /*
  *
