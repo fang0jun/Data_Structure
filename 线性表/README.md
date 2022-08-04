@@ -359,14 +359,27 @@ void delete_min(LinkList& L){
 
 // 法一：时间：n^2原地
 void ordeded1(LinkList &L){
+    LNode *pre;
+
     LNode *p = L->next;
-    LNode *pre = L;
-    LNode *aft = p->next;
+    LNode *tmp = p->next;
     p->next = NULL;
 
-    while(p){
-        while(pre)
+    p = tmp; 
 
+    while(p){
+        /*时刻保留的下一位以遍历*/
+        tmp = p->next;
+        
+        /*原L表查找插入位置*/
+        pre = L;
+        while(pre->next && pre->next->data < p->data){pre = pre->next;}
+        
+        /*插入原L表*/
+        p->next = pre->next;
+        pre->next = p;
+
+        p = tmp;
     }
 }
 
