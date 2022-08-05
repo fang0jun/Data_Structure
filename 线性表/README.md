@@ -425,8 +425,5 @@ void ordeded2(LinkList &L){
 /*
  *
  */
-/*
- *
- */
 
 ```
