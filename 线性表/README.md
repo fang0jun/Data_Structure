@@ -37,7 +37,7 @@ int Delete_min(SqList &L){
 
 
 /*
- *将两个有序顺序表合并为一个新的有序顺序表，并返回结果顺序表
+ *7将两个有序顺序表合并为一个新的有序顺序表，并返回结果顺序表
  *
  */
 
@@ -67,7 +67,7 @@ SqList Combine_OrderList(SqList a, SqList b){
 
 
 /*
- * 设计一个高效算法， 将顺序表L的所有元素逆置，要求算法空间复杂度为O(1)
+ *2设计一个高效算法， 将顺序表L的所有元素逆置，要求算法空间复杂度为O(1)
  *
  */
 void reverse(SqList &l, int left, int right){
@@ -81,7 +81,7 @@ void reverse(SqList &l, int left, int right){
 }
 
 /*
- * 若有数组包含两个线性表(a,b)，编写程序使得数组中两个线性表的顺序调换，即(b,a)；
+ *8若有数组包含两个线性表(a,b)，编写程序使得数组中两个线性表的顺序调换，即(b,a)；
  */
 
 void reverse_List(SqList &c, int size_a, int size_b){
@@ -91,7 +91,7 @@ void reverse_List(SqList &c, int size_a, int size_b){
 }
 
 /*
- *将数组中保存的序列 循环右移p个位置
+ *10将数组中保存的序列【循环右移】p个位置
  */
 
 void removeLeft_q(SqList &c, int q){
@@ -104,7 +104,7 @@ void removeLeft_q(SqList &c, int q){
 
 /*
  *
- *对长度为n的顺序表L，编写程序删除线性表中所有值为x的数据元素。时间复杂度为O(n),空间复杂度为O(1)的
+ *  3对长度为n的顺序表L，编写程序删除线性表中所有值为x的数据元素。时间复杂度为O(n),空间复杂度为O(1)的
  *
  */
 
@@ -125,7 +125,7 @@ void Delete_val(SqList &L, int x){
 
 
 /*
- *从顺序表中删除其值在给定s与t之间(要求s<t)的所有元素，若s或t不合理或顺序表为空，则显示出错结束
+ *5从顺序表中删除其值在给定s与t之间(要求s<t)的所有元素，若s或t不合理或顺序表为空，则显示出错结束
  */
 int Deleta_range1(SqList &L, int s, int t){
     if(s>=t || s<INT_MIN || t>INT_MAX || L.length <= 0)  return 0;
@@ -147,7 +147,7 @@ int Deleta_range1(SqList &L, int s, int t){
 
 
 /*
- *从有序顺序表中删除其值在给定s与t之间(要求s<t)的所有元素，若s或t不合理或顺序表为空，则显示出错结束
+ *4从有序顺序表中删除其值在给定s与t之间(要求s<t)的所有元素，若s或t不合理或顺序表为空，则显示出错结束
  */
 int Deleta_range2(SqList &L, int s, int t){
     if(s>=t || s<INT_MIN || t>INT_MAX || L.length <= 0)  return 0;
@@ -167,9 +167,42 @@ int Deleta_range2(SqList &L, int s, int t){
 }
 
 
+/*
+ *从有序顺序表中删除所有其值重复的元素
+ */
+// 法1:空间换时间
+void Delete_again(SqList &L){
+    int tmp[N];
+    tmp[0] = L.data[0];
+    for(int i = 0, j = 0; i < L.length-1; i++){
+        if(L.data[i] != tmp[j]){
+            tmp[++j] = L.data[i];
+            L.length--;
+        } 
+    
+    }
+    L.data = tmp;
+    
+    return;
+
+}
+// 法2: 原地 快速
+void Delete_again(SqList &L){
+    if(L.length == 0) return false;
+    for(int i = 0, j = 1; j < L.length; j++){
+        if(L.data[i] != L.data[j]){
+            L.data[++i] = L.data[j];
+        }
+        else L.length--;
+    }
+    return;
+
+}
+
+
 
 /*
- *设计一个算法，对于有序递增顺序表，用最少时间查找数值为x的元素，若找到则将其与后继元素位置交换，若找不到则将其插入表中并保证递增有序
+ *9设计一个算法，对于有序递增顺序表，用最少时间查找数值为x的元素，若找到则将其与后继元素位置交换，若找不到则将其插入表中并保证递增有序
  */
 
 void algorithm(SqList& L, int x){
@@ -197,6 +230,10 @@ void algorithm(SqList& L, int x){
 
 }
 ```
+
+
+
+
 
 【课后题】链表相关题目
 ```cpp
@@ -665,23 +702,258 @@ void display3(LinkList L, LinkList &L1, LinkList &L2){
 
 
 /*
- *
+ *13假设有两个递增线性表，均一单链表形式存储，编写算法使得它们归并为一个递减的单链表，并要求利用原来两个单链表的节点，存放归并后的单链表
  */
+void combine(LinkList L1, LinkList L2){
+    LNode* p1 = L1, p2 = L2, min;
+    LinkList L = (LinkList)malloc(sizeof(LNode));
+    L->next = NULL;
+    
+    while(p1 && p2){
+        if(p1->data < p2->data){
+            min = p1;
+            p1 = p1->next;
+        }
+        else{
+            min = p2;
+            p2 = p2->next;
+        }
+        //头插法
+        min->next = L->next;
+        L->next = min;
+        
+    }
+    
+    while(p1){
+        min = p1;
+        //头插法
+        min->next = L->next;
+        L->next = min;
+        p1 = p1->next;
+    }
+    while(p2){
+        min = p2;
+        //头插法
+        min->next = L->next;
+        L->next = min;
+        p2 = p2->next;
+    }
+    return;
+}
+
+
+
+/*
+ *14设有两个带头节点的递增单链表，设计一个算法从两个单链表中的公共元素产生新的单链表，要求不破坏原来的单链表
+ */
+void combineSame(LinkList A, LinkList B){
+    LinkList C = (LinkList)malloc(sizeof(LNode));
+    C->next = NULL;
+    
+    LNode* min;
+    while(A && B){
+        if(A->data < B->data){
+            A = A->next;
+        }
+        else if(A->data > B->data){
+            B = B->next;
+        }
+        else{
+            min = (LNode*)malloc(sizeof(LNode));
+            min->next = C->next;
+            C->next = min;
+            
+            A = A->next;
+            B = B->next;
+        }
+    
+    }
+    return;
+
+}
+
+
+
+/*
+ *15已知两个带头节点的递增链表A和B，设计算法求A和B所代表序列的交集，并放入A中
+ */
+void findSame(LinkList &A, LinkList &B){
+    LNode* a = A->next, b = B->next; 
+    A->next = NULL;
+    
+    LNode* min;
+    while(a && b){
+        if(a->data < b->data){
+            a = a->next;
+        }
+        else if(a->data > b->data){
+            b = b->next;
+        }
+        else{
+            min = (LNode*)malloc(sizeof(LNode));
+            min->next = A->next;
+            A->next = min;
+        }
+    
+    }
+    return;
+
+}
+
+
+
+
+
+/*
+ *16两个单链表AB代表两个整数序列，判断B是否为A的连续子序列
+ */
+bool subArray(LinkList A, LinkList B){
+    while(A){
+        if(A->data == B->data) break;
+        A = A->next;
+    }
+    while(B){
+        if(!A || A->data != B->data) return false;
+        A = A->next; B = B->next; 
+    }
+    
+    return true;
+
+}
+
+
+/////////////////////////////////循环链表///////////////////////
+
+
+/*
+ *17设计一个算法用于判断带头节点的循环双链表是否对称
+ */
+bool duichen(PDLinkList L){
+    PDLNode*    head = L->next, rear = L->prior;
+    
+    while(head->prior != rear && head != rear){
+        if(head->data != r->data) return false;
+        head = head->next;
+        rear = rear->prior;
+    }
+    return true;
+
+}
+
+/*
+ *18有两个循环单链表，头指针分别为h1和h2，编写一个函数将链表h2链接到h1之后，最后仍保持循环链表的形式
+ */
+PLNode* combinePList(PLinkList h1, PLinkList h2){
+    PLNode* head = h1;
+    
+    while(h1->next != h1){h1 = h1->next;} // Mis写法：while(h1->next)
+    h1->next = h2;
+    
+    while(h2->next != h2){h2 = h2->next;}
+    h2->next = head;
+    
+    return h1;
+}
+
+
+/*
+ *19设有一个带头节点的循环单链表，其节点值均为正整数，设计一个算法，反复找出最小值，输出并删除，直至单链表为空
+ */
+
+void deleteInPList(PLinkList &L){
+    PLNode* pre, p;
+    
+    while(L->next != L){ //Mis写法：while(L)
+        pre = L; p = L->next;
+        while(p != L){//Mis写法：while(p)
+            if(pre->next->data > p->data){
+                pre = p;
+                p = p->next;
+            }
+            else{
+                p = p->next;
+            }
+        }
+        cout << pre->next->data << " ";
+        PLNode* tmp = pre->next;
+        pre->next = tmp->next;
+        free(tmp);
+    
+    }
+    
+    free(L);
+    
+
+
+
+}
+
+
+
+/*
+ *20设头指针为L的带有头节点的双向链表，其中节点额外包含fred访问频度域。实现函数locate(L, x),使得元素值为x的节点fred域的值增1，并使链表按照fred值递减排列（若fred值相同最近访问的节点放在前面），最后返回找到节点的地址
+ */
+
+//不好的写法，适用于单链表
+LNode* locate(LinkList &L, int x){
+    LNode* p = L, pre = L, tmp, tar;
+    
+    while(pre->next){
+        if(pre->next->data != x){ 
+            pre = pre->next;
+        }
+        else{
+            tar = p; tar->pred++;
+            tmp = pre->next;
+            pre->next = tmp->next;
+            free(tmp);
+            break;
+        }
+    }
+    if(pre->next) return NULL;
+    
+    while(p->next){
+        if(p->next->fred > tmp->fred){
+            p = p->next;
+        }
+        else{ // (p->next->fred <= tmp->fred)
+            tar->next = p->next;
+            p->next = tar;
+            break;
+        }
+    }
+    
+    return tar;
+}
+
+DLNode* locate(LinkList &L, int x){
+    DLNode*  p = L;
+    
+    while(p && p->data != x){p=p->next;}
+    if(!p) return NULL;
+    else{
+        p->fred++;
+        //双链表中的断链
+        p->prior->next = p->next;
+        p->next->prior = p->prior;
+        //双链表中向前回溯查找插入位置
+        DLNode*  pre = p;
+        while(pre->prior != L && pre->fred > p->fred) //注意此处是找到 > 而非 >=
+            pre = pre->prior;
+        //双链表中的插入
+        pre->next->prior = p;
+        p->next = pre->next;
+        p->prior = pre;
+        pre->next = p;
+        return p;
+    }
+    
+}
+
 
 /*
  *
  */
 
-/*
- *
- */
-
-/*
- *
- */
-
-/*
- *
- */
 
 ```
