@@ -3,7 +3,7 @@
 
 ### ● [线性表题集](https://github.com/fang0jun/Data_Structure/blob/master/%E7%BA%BF%E6%80%A7%E8%A1%A8/README.md)
 
-### ● 栈与队列题集
+### ● [栈与队列题集](https://github.com/fang0jun/Data_Structure/blob/master/%E6%A0%88%E4%B8%8E%E9%98%9F%E5%88%97/README.md)
 
 ### ● 树题集
 
